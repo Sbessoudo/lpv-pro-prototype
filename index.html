@@ -1325,7 +1325,6 @@ function TopBar({ state, go, setQuery }) {
     <div className="top-bar">
       <div className="lpv-logo" onClick={() => go('home')}>
         <Logo size={52}/>
-        <div className="lpv-logo-text"><span>Espace Pro</span></div>
       </div>
       <div className="search-wrap" style={{ marginLeft:16 }} ref={wrapRef}>
         <svg className="search-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
@@ -1497,10 +1496,10 @@ function MenuScreen({ go, setState }) {
     <div style={{ minHeight:'100vh', background:`linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%)`, padding:'0 0 48px' }}>
       {/* Header */}
       <div style={{ background:'rgba(0,0,0,.15)', padding:'20px 48px', display:'flex', alignItems:'center', gap:16 }}>
-        <Logo size={60}/>
+        <Logo size={72}/>
         <div>
-          <div style={{ fontFamily:'var(--font-title)', fontSize:32, fontWeight:700, color:'#fff', lineHeight:1 }}>LPV•pro</div>
-          <div style={{ fontSize:13, color:'rgba(255,255,255,.75)', marginTop:3 }}>Espace Pro B2B — Prototype interactif · Réponse à Appel d'Offres</div>
+          <div style={{ fontFamily:'var(--font-title)', fontSize:32, fontWeight:700, color:'#fff', lineHeight:1 }}>Espace Pro B2B</div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,.75)', marginTop:3 }}>Prototype interactif · Réponse à Appel d'Offres</div>
         </div>
       </div>
 
