@@ -1085,9 +1085,12 @@ const HOME_NEW   = ['LPV-FR50','LPV-CA50','UWL-CAL3','NIT-LCD2'];
 const HOME_FREQ  = ['EFS-VTC6','VPR-GEN3','INK-T22','CRK-50PG','GV-Z04'];
 
 const RECENT_ORDERS = [
-  { ref:'C-9024', date:'23 mai 2026', desc:'Aegis Legend 2 × 5 · Résistance Z-coil × 3 · E-liquide Cassis Mangue × 12', n:3, total:247.60, status:'Expédiée', cls:'tag-success', carrier:'Chronopost' },
-  { ref:'C-8997', date:'14 mai 2026', desc:'Caliburn G3 Pro × 10 · Accu VTC6 × 4 · E-liquide Fruits Tropicaux × 24',  n:5, total:512.30, status:'Livrée',   cls:'tag-success', carrier:'Colissimo' },
-  { ref:'C-8941', date:'02 mai 2026', desc:'Booster nicotine × 20 · Base DIY 50/50 × 2',                          n:2, total:89.80,  status:'Livrée',   cls:'tag-success', carrier:'Chronopost' },
+  { ref:'C-9024', date:'23 mai 2026', desc:'Aegis Legend 2 × 5 · Résistance Z-coil × 3 · E-liquide Cassis Mangue × 12', n:3, total:247.60, status:'Expédiée', cls:'tag-success', carrier:'Chronopost',
+    items:[{id:'GV-A201',qty:5},{id:'GV-Z04',qty:3},{id:'LPV-CA50',qty:12}] },
+  { ref:'C-8997', date:'14 mai 2026', desc:'Caliburn G3 Pro × 10 · Accu VTC6 × 4 · E-liquide Fruits Tropicaux × 24',  n:5, total:512.30, status:'Livrée',   cls:'tag-success', carrier:'Colissimo',
+    items:[{id:'UWL-CAL3',qty:10},{id:'EFS-VTC6',qty:4},{id:'LPV-MG50',qty:24}] },
+  { ref:'C-8941', date:'02 mai 2026', desc:'Booster nicotine × 20 · Base DIY 50/50 × 2',                          n:2, total:89.80,  status:'Livrée',   cls:'tag-success', carrier:'Chronopost',
+    items:[{id:'VR-NIC3',qty:20},{id:'CRK-50PG',qty:2}] },
 ];
 
 const AVIS = [
@@ -1672,7 +1675,20 @@ function HomeScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
                   <span style={{ fontSize:11, color:'var(--ink-3)' }}>{o.n} {o.n>1?t(lang,'home.refs'):t(lang,'home.ref')}</span>
                   <span style={{ fontFamily:'var(--font-title)', fontSize:16, fontWeight:700, color:'var(--orange)' }}>{fmt(o.total)}</span>
                 </div>
-                <button className="btn btn-outline-teal btn-sm btn-full" style={{ marginTop:10 }}>{t(lang,'home.reorder')}</button>
+                <button className="btn btn-outline-teal btn-sm btn-full" style={{ marginTop:10 }} onClick={()=>{
+                  setState(s=>{
+                    let cart=[...s.cart];
+                    (o.items||[]).forEach(({id,qty})=>{
+                      const prod=PRODUCTS.find(p=>p.id===id); if(!prod) return;
+                      const ex=cart.find(l=>l.id===id);
+                      const cur=ex?ex.qty:0;
+                      const clamped=Math.min(cur+qty, prod.maxQty);
+                      if(ex) cart=cart.map(l=>l.id===id?{...l,qty:clamped}:l);
+                      else cart=[...cart,{id,p:prod,qty:clamped}];
+                    });
+                    return {...s,cart,view:'cart'};
+                  });
+                }}>{t(lang,'home.reorder')}</button>
               </div>
             ))}
           </div>
@@ -2202,7 +2218,7 @@ function CheckoutScreen({ state, setState, go, setQuery, reset, lang, setLang })
       <NavBar state={state} go={go} setQuery={setQuery||(() => {})} lang={lang}/>
       <div style={{ maxWidth:1280, margin:'0 auto', padding:24, display:'grid', gridTemplateColumns:'1fr 360px', gap:24 }}>
         {/* Step progress block */}
-        <div className="card" style={{ gridColumn:'1/-1', padding:'16px 32px', display:'flex', alignItems:'center', justifyContent:'center', gap:16, marginBottom:0 }}>
+        <div style={{ gridColumn:'1/-1', padding:'12px 0', display:'flex', alignItems:'center', justifyContent:'center', gap:16 }}>
           <div className="step-line" style={{ maxWidth:600 }}>
             {STEPS.map((s,i)=>{
               const n=i+1;
