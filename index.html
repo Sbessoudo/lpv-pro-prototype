@@ -569,13 +569,16 @@ a{color:var(--teal);text-decoration:none;cursor:pointer}
 .mega-menu{
   position:absolute;top:100%;left:0;
   background:var(--white);border-radius:0 0 var(--r-xl) var(--r-xl);
-  box-shadow:var(--shadow-l);padding:24px;
+  box-shadow:var(--shadow-l);padding:20px 0;
   display:none;z-index:300;width:max-content;min-width:520px;
   border-top:3px solid var(--teal);
 }
 .mega-wrap:hover .mega-menu{display:grid}
 .mega-cols{display:grid;gap:24px}
-.mega-col-title{font-family:var(--font-title);font-size:13px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--beige-d)}
+.mega-col{padding:0 24px;border-right:1px solid var(--beige-d)}
+.mega-col:last-of-type{border-right:none}
+.mega-footer{padding:0 24px}
+.mega-col-title{font-family:var(--font-title);font-size:13px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--teal-l)}
 .mega-item{display:block;padding:5px 0;font-size:13px;color:var(--ink-2);cursor:pointer;transition:color .1s}
 .mega-item:hover{color:var(--teal)}
 .mega-badge{font-size:10px;font-weight:700;background:var(--orange);color:#fff;padding:1px 5px;border-radius:3px;margin-left:4px}
@@ -1322,14 +1325,14 @@ function NavBar({ state, go, setQuery, lang='fr' }) {
               </div>
               <div className="mega-menu" style={{ gridTemplateColumns:`repeat(${mega.cols.length},1fr)` }}>
                 {mega.cols.map(col => (
-                  <div key={col.t}>
+                  <div key={col.t} className="mega-col">
                     <div className="mega-col-title">{col.t}{col.hot && <span className="mega-badge">B2B</span>}</div>
                     {col.items.map(it => (
                       <div key={it} className="mega-item" onClick={() => { setQuery(it); go('search'); }}>{it}</div>
                     ))}
                   </div>
                 ))}
-                <div style={{ gridColumn:`1/-1`, marginTop:12, paddingTop:12, borderTop:`1px solid var(--beige-d)`, display:'flex', gap:8 }}>
+                <div className="mega-footer" style={{ gridColumn:`1/-1`, marginTop:16, paddingTop:14, borderTop:`1px solid var(--beige-d)`, display:'flex', gap:8 }}>
                   <span className="tag tag-teal" style={{ cursor:'pointer' }} onClick={() => go('search')}>{t(lang,'nav.seeAll')} — {mega.title}</span>
                   <span className="tag tag-orange">{t(lang,'nav.new')}</span>
                   <span className="tag tag-yellow">{t(lang,'nav.yourDiscount')}</span>
