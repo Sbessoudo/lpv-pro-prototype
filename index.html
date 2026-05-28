@@ -1059,6 +1059,23 @@ const PRODUCTS = [
   { id:'NIT-LCD2', ref:'VS-4015', name:'Chargeur Nitecore LCD2',       brand:'Nitecore',               family:'Accessoire', cat:'accessoires', pack:'Unité',        price:24.90, stock:'ok',      stockLabel:'En stock (30 u.)',       maxQty:30,  badge:null,        desc:'Chargeur 2 baies LCD, compatible 18650/21700/26650, affichage courant.', specs:[['Baies','2'],['Formats','18650 / 21700 / 26650'],['Courant max','2A / baie'],['Affichage','LCD (capacité + courant)'],['Alimentation','12V DC / USB']] },
 ];
 
+const IMGS = {
+  'GV-A201': 'https://www.geekvape.com/upload/products/aegis-legend2/aegis-legend2-01.jpg',
+  'GV-Z04':  'https://www.geekvape.com/upload/products/Z-Coil/p1.jpg',
+  'LPV-CA50':'https://www.eliquid-france.com/4030-large_default/cassis-mangue-50ml.jpg',
+  'GV-WK2':  'https://www.geekvape.com/upload/products/wenax-k2/WENAX-K2-Web_01.jpg',
+  'VR-NIC3': 'https://www.vapevo.com/cdn/shop/files/booster-de-nicotine-n-20mg-10ml-2080.jpg?v=1775516130&width=800',
+  'GV-M50':  'https://www.geekvape.com/upload/products/m100/m100-01.jpg',
+  'UWL-CAL3':'https://files.myuwell.com/uwell/product/caliburnG3Pro/pack1.webp',
+  'LPV-MG50':'https://www.eliquid-france.com/4087-large_default/tropikania-50ml.jpg',
+  'LPV-FR50':'https://www.eliquid-france.com/4145-large_default/fire-moon-50ml.jpg',
+  'EFS-VTC6':'https://www.18650batterystore.com/cdn/shop/files/Screenshot2025-08-23025438.png?v=1755932137',
+  'VPR-GEN3':'https://store.vaporesso.com/cdn/shop/products/GEN200MOD_Black_3.png?v=1759135194&width=500',
+  'INK-T22': 'https://www.innokin.com/hubfs/Product%20details%20page%20material/Endura%20T22%20Pro/banner_pc_small.jpg',
+  'CRK-50PG':'https://www.smokein.fr/2895-medium_default/base-5050-vdlv-1-litre.jpg',
+  'NIT-LCD2':'https://www.nitecore.com/storage/images/album/20181017/original_img/201810171418171545_m.png',
+};
+
 const BY_ID = id => PRODUCTS.find(p=>p.id===id);
 const HOME_OFTEN = ['GV-A201','GV-Z04','LPV-CA50','VR-NIC3','LPV-MG50'];
 const HOME_NEW   = ['LPV-FR50','LPV-CA50','UWL-CAL3','NIT-LCD2'];
@@ -1128,7 +1145,15 @@ const STOCK_CFG = {
 };
 
 // ─── PRIMITIVES ───────────────────────────────────────────────────────────────
-function Img({ w, h, label, r=6, style={} }) {
+function Img({ w, h, label, r=6, style={}, src=null }) {
+  const [err, setErr] = useState(false);
+  if (src && !err) {
+    return (
+      <div className="img-ph" style={{ width:w, height:h, borderRadius:r, background:'#fff', ...style }}>
+        <img src={src} alt={label||''} style={{ width:'100%', height:'100%', objectFit:'contain', display:'block', borderRadius:r }} onError={()=>setErr(true)}/>
+      </div>
+    );
+  }
   return (
     <div className="img-ph" style={{ width:w, height:h, borderRadius:r, ...style }}>
       <svg preserveAspectRatio="none" viewBox="0 0 100 100">
@@ -1448,7 +1473,7 @@ function PCard({ p, go, setState, state }) {
   return (
     <div className="card card-h pcard" onClick={()=>go('product',{productId:p.id})}>
       {p.badge && <span className="tag tag-dark" style={{ position:'absolute', top:10, left:10, zIndex:1 }}>{p.badge}</span>}
-      <div className="pimg"><Img w="100%" h={110} label={p.id}/></div>
+      <div className="pimg"><Img w="100%" h={110} label={p.id} src={IMGS[p.id]}/></div>
       <div className="pname">{p.name}</div>
       <div className="pbrand">{p.brand} · {p.id}</div>
       <Stock stock={p.stock} label={p.stockLabel.split('(')[0].trim()}/>
@@ -1782,11 +1807,11 @@ function ProductScreen({ state, setState, go, setQuery }) {
 
         <div style={{ display:'grid', gridTemplateColumns:'1.1fr 1fr', gap:36 }}>
           <div>
-            <Img w="100%" h={400} label={`${p.id} — ${thumbAngles[selThumb]}`} r={10} style={{ marginBottom:12 }}/>
+            <Img w="100%" h={400} label={`${p.id} — ${thumbAngles[selThumb]}`} r={10} style={{ marginBottom:12 }} src={selThumb===0 ? IMGS[p.id] : null}/>
             <div style={{ display:'flex', gap:8 }}>
               {thumbAngles.map((lbl,i)=>(
                 <div key={i} onClick={()=>setSelThumb(i)} style={{ cursor:'pointer', borderRadius:8, border:`2px solid ${i===selThumb?'var(--teal)':'var(--border)'}`, overflow:'hidden', opacity:i===selThumb?1:.55, transition:'all .15s' }}>
-                  <Img w={72} h={72} r={6} label={lbl.split(' ')[0]}/>
+                  <Img w={72} h={72} r={6} label={lbl.split(' ')[0]} src={i===0 ? IMGS[p.id] : null}/>
                 </div>
               ))}
             </div>
@@ -2001,7 +2026,7 @@ function CartScreen({ state, setState, go, setQuery }) {
                 const lineNet=+(net(l.p.price)*l.qty).toFixed(2);
                 return (
                   <div key={l.id} className="card" style={{ padding:16, marginBottom:12, display:'grid', gridTemplateColumns:'72px 1fr auto auto auto', gap:14, alignItems:'center' }}>
-                    <Img w={72} h={72} label={l.p.id} r={8}/>
+                    <Img w={72} h={72} label={l.p.id} r={8} src={IMGS[l.p.id]}/>
                     <div>
                       <div style={{ fontFamily:'var(--font-title)', fontSize:14, fontWeight:700, textTransform:'uppercase', marginBottom:2 }}>{l.p.name}</div>
                       <div style={{ fontSize:11, color:'var(--ink-3)', marginBottom:5 }}>Réf {l.p.id} · {l.p.pack}</div>
@@ -2297,7 +2322,7 @@ function CheckoutScreen({ state, setState, go }) {
             )}
             {lines.map(l=>(
               <div key={l.id} style={{ display:'flex', gap:10, alignItems:'center', padding:'8px 0', borderBottom:'1px solid var(--beige-d)', fontSize:13 }}>
-                <Img w={40} h={40} label={l.p.id} r={6} style={{ flexShrink:0 }}/>
+                <Img w={40} h={40} label={l.p.id} r={6} style={{ flexShrink:0 }} src={IMGS[l.p.id]}/>
                 <span style={{ flex:1, lineHeight:1.3 }}>{l.p.name} <span style={{ color:'var(--ink-3)' }}>×{l.qty}</span></span>
                 <span style={{ fontWeight:700 }}>{fmt(+(net(l.p.price)*l.qty).toFixed(2))}</span>
               </div>
