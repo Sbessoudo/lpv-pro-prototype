@@ -1013,12 +1013,17 @@ var e,t,r="function"==typeof Symbol?Symbol:{},a=r.iterator||"@@iterator",n=r.toS
   </div>
 </div>
 <script>
-(function(){
-  var PWD='lpvpro2026', KEY='lpv_gate_ok';
+(async function(){
+  var HASH='d376f2a97bca4a880e9d08f7fd19941f73cc25088bbc4ccbaa14e9335555874f', KEY='lpv_gate_ok';
   if(sessionStorage.getItem(KEY)==='1'){document.getElementById('gate-overlay').style.display='none';return;}
-  function attempt(){
+  async function sha256(str){
+    var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  async function attempt(){
     var v=document.getElementById('gate-input').value;
-    if(v===PWD){sessionStorage.setItem(KEY,'1');document.getElementById('gate-overlay').style.display='none';}
+    var h=await sha256(v);
+    if(h===HASH){sessionStorage.setItem(KEY,'1');document.getElementById('gate-overlay').style.display='none';}
     else{var i=document.getElementById('gate-input');i.value='';i.classList.remove('shake');void i.offsetWidth;i.classList.add('shake');document.getElementById('gate-error').textContent='Code incorrect';}
   }
   document.getElementById('gate-btn').addEventListener('click',attempt);
