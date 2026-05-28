@@ -1151,18 +1151,18 @@ fr:{
   'nav.ecigarettes':'E-cigarettes','nav.eliquides':'E-liquides','nav.resistances':'Résistances','nav.accessoires':'Accessoires','nav.marques':'Marques','nav.promos':'Promos',
   'nav.seeAll':'Voir tout','nav.new':'Nouveautés','nav.yourDiscount':'Votre remise','nav.encours':'Encours autorisé','nav.used':'utilisés',
   'home.badge':'Nouveautés printemps 2026','home.hello':'Bonjour','home.heroDesc':'Découvrez nos nouvelles références e-liquides et accessoires. Livraison sous 24–48 h, votre remise −18% appliquée automatiquement.',
-  'home.catalog':'Voir le catalogue','home.myCart':'Mon panier','home.recentOrders':'Mes dernières commandes','home.reorder':'↺ Recommander',
+  'home.catalog':'Voir le catalogue','home.myCart':'Mon Cart','home.recentOrders':'Mes dernières commandes','home.reorder':'↺ Recommander',
   'home.oftenBought':'Souvent achetés par vous','home.newRecs':'Nouveautés recommandées','home.freqOrdered':'Fréquemment commandés par',
   'home.ref':'référence','home.refs':'références','home.loomixCta':'JE FONCE',
   'search.title':'Catalogue','search.results':'Résultats','search.product':'produit','search.products':'produits',
   'search.filters':'Filtres','search.brand':'Marque','search.family':'Famille','search.stockF':'Stock',
   'search.clear':'✕ Réinitialiser filtres','search.sortStock':'Disponibilité','search.sortAsc':'Prix croissant','search.sortDesc':'Prix décroissant','search.sortName':'Nom A → Z',
   'search.hint':'Recherchez par nom, marque, référence LPV ou référence client (ex : VS-5012)','search.refFound':'Référence client','search.refSuffix':'retrouvée via mapping réf interne LPV.',
-  'product.back':'← Retour','product.packaging':'Conditionnement','product.qty':'Quantité','product.addCart':'Ajouter au panier','product.adding':'Ajout en cours…',
+  'product.back':'← Retour','product.packaging':'Conditionnement','product.qty':'Quantité','product.addCart':'Ajouter au Cart','product.adding':'Ajout en cours…',
   'product.disc':'Article arrêté','product.reappro':'En réapprovisionnement','product.outOfStock':'Stock épuisé','product.quote':'Devis',
   'product.desc':'Description','product.carac':'Caractéristiques','product.avis':'Avis',
-  'cart.title':'Mon panier','cart.saved':'💾 Panier sauvegardé','cart.art1':'article','cart.arts':'articles','cart.ref1':'référence','cart.refs':'références',
-  'cart.empty':'Panier vide','cart.emptyDesc':'Ajoutez des produits depuis le catalogue.','cart.explore':'Explorer le catalogue',
+  'cart.title':'Mon Cart','cart.saved':'💾 Cart sauvegardé','cart.art1':'article','cart.arts':'articles','cart.ref1':'référence','cart.refs':'références',
+  'cart.empty':'Cart vide','cart.emptyDesc':'Ajoutez des produits depuis le catalogue.','cart.explore':'Explorer le catalogue',
   'cart.subtBase':'Sous-total HT (base)','cart.disc':'Votre remise','cart.subtNet':'Sous-total HT remisé','cart.ship':'Livraison','cart.vat':'TVA 20%','cart.total':'Total TTC',
   'cart.pay':'🔒 Passer au paiement','cart.continue':'← Continuer mes achats','cart.quote':'Sauvegarder en devis',
   'cart.recap':'Récapitulatif','cart.yourOrder':'Votre commande',
@@ -1176,9 +1176,9 @@ fr:{
   'notifs.title':'Notifications','notifs.unread':'non lues','notifs.markAll':'Tout lire','notifs.prefs':'⚙ Préférences',
   'notifs.prefTitle':'Préférences de notification','notifs.save':'Enregistrer','notifs.cancel':'Annuler',
   'notifs.channelApp':'In-app','notifs.channelEmail':'Email',
-  'footer.proto':'Prototype interactif LPV•pro','footer.home':'Accueil','footer.search':'Recherche','footer.cart':'Panier',
-  'footer.reset':'↺ Réinitialiser','footer.confirm':'Réinitialiser le prototype ? Le panier et la navigation seront remis à zéro.',
-  'view.home':'Accueil','view.search':'Recherche','view.product':'Fiche produit','view.cart':'Panier','view.checkout':'Checkout','view.notifPrefs':'Notifs',
+  'footer.proto':'Prototype interactif LPV•pro','footer.home':'Accueil','footer.search':'Recherche','footer.cart':'Cart',
+  'footer.reset':'↺ Réinitialiser','footer.confirm':'Réinitialiser le prototype ? Le cart et la navigation seront remis à zéro.',
+  'view.home':'Accueil','view.search':'Recherche','view.product':'Fiche produit','view.cart':'Cart','view.checkout':'Checkout','view.notifPrefs':'Notifs',
 },
 en:{
   'search.ph':'Name, brand, LPV ref or client ref VS-…','search.enter':'Press Enter to see all results',
@@ -1535,7 +1535,7 @@ function PCard({ p, go, setState, state }) {
     }, 500);
   }
 
-  let btnLabel = '+ Panier';
+  let btnLabel = '+ Cart';
   if (adding)              btnLabel = <><span className="spin"/>En cours…</>;
   else if (p.stock==='disc')   btnLabel = 'Article arrêté';
   else if (p.stock==='reappro')btnLabel = 'En réappro';
@@ -1556,7 +1556,7 @@ function PCard({ p, go, setState, state }) {
       </div>
       {cartQty > 0 && !unavail && (
         <div style={{ fontSize:11, color:'var(--teal-d)', fontWeight:600, marginBottom:4 }}>
-          ✓ {cartQty} déjà au panier
+          ✓ {cartQty} déjà au Cart
         </div>
       )}
       <button className="btn btn-secondary btn-sm btn-full" disabled={blocked||adding} onClick={addToCart} style={{ marginTop:4 }}>
@@ -1953,7 +1953,7 @@ function ProductScreen({ state, setState, go, setQuery, reset, lang, setLang }) 
 
             {!unavail && remaining === 0 && (
               <div className="alert alert-error" style={{ marginBottom:12 }}>
-                🚫 Stock maximum atteint — vous avez déjà {cartQty} unité{cartQty>1?'s':''} dans votre panier.
+                🚫 Stock maximum atteint — vous avez déjà {cartQty} unité{cartQty>1?'s':''} dans votre Cart.
               </div>
             )}
             {!unavail && remaining > 0 && remaining <= 5 && (
