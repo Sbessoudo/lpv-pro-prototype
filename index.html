@@ -1418,7 +1418,7 @@ function TopBar({ state, go, setQuery }) {
 // ─── BOTTOM BAR ───────────────────────────────────────────────────────────────
 const VLABELS = { menu:'Menu', home:'Accueil', search:'Recherche', product:'Fiche produit', cart:'Panier', checkout:'Checkout' };
 
-function BottomBar({ state, go }) {
+function BottomBar({ state, go, reset }) {
   const n = state.cart.reduce((s,l)=>s+l.qty,0);
   return (
     <div className="bottom-bar">
@@ -1430,7 +1430,7 @@ function BottomBar({ state, go }) {
         {[['home','Accueil'],['search','Recherche'],['cart',`Panier (${n})`]].map(([v,l])=>(
           <span key={v} className={`bnav${state.view===v?' on':''}`} onClick={()=>go(v)}>{l}</span>
         ))}
-        <span className="bnav back" onClick={()=>go('menu')}>← Scénarios</span>
+        <span className="bnav back" onClick={reset} title="Remettre le prototype à zéro">↺ Réinitialiser</span>
       </div>
     </div>
   );
@@ -1532,7 +1532,7 @@ function MenuScreen({ go, setState }) {
 }
 
 // ─── SCREEN 1: HOME ───────────────────────────────────────────────────────────
-function HomeScreen({ state, setState, go, setQuery }) {
+function HomeScreen({ state, setState, go, setQuery, reset }) {
   return (
     <div>
       <TopBar state={state} go={go} setQuery={setQuery}/>
@@ -1606,13 +1606,13 @@ function HomeScreen({ state, setState, go, setQuery }) {
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go}/>
+      <BottomBar state={state} go={go} reset={reset}/>
     </div>
   );
 }
 
 // ─── SCREEN 2: SEARCH ─────────────────────────────────────────────────────────
-function SearchScreen({ state, setState, go, setQuery }) {
+function SearchScreen({ state, setState, go, setQuery, reset }) {
   const [fBrand,setFBrand] = useState([]);
   const [fFamily,setFFamily] = useState([]);
   const [fStock,setFStock] = useState([]);
@@ -1748,13 +1748,13 @@ function SearchScreen({ state, setState, go, setQuery }) {
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go}/>
+      <BottomBar state={state} go={go} reset={reset}/>
     </div>
   );
 }
 
 // ─── SCREEN 3: PRODUCT ────────────────────────────────────────────────────────
-function ProductScreen({ state, setState, go, setQuery }) {
+function ProductScreen({ state, setState, go, setQuery, reset }) {
   const p = PRODUCTS.find(x=>x.id===state.productId)||PRODUCTS[0];
   const [qty,setQty]=useState(1);
   const [tab,setTab]=useState('desc');
@@ -1950,13 +1950,13 @@ function ProductScreen({ state, setState, go, setQuery }) {
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go}/>
+      <BottomBar state={state} go={go} reset={reset}/>
     </div>
   );
 }
 
 // ─── SCREEN 4: CART ───────────────────────────────────────────────────────────
-function CartScreen({ state, setState, go, setQuery }) {
+function CartScreen({ state, setState, go, setQuery, reset }) {
   const lines=state.cart;
   const [checkLoading,setCheckLoading]=useState(false);
   function update(id,qty){
@@ -2074,13 +2074,13 @@ function CartScreen({ state, setState, go, setQuery }) {
           </div>
         )}
       </div>
-      <BottomBar state={state} go={go}/>
+      <BottomBar state={state} go={go} reset={reset}/>
     </div>
   );
 }
 
 // ─── SCREEN 5: CHECKOUT ───────────────────────────────────────────────────────
-function CheckoutScreen({ state, setState, go }) {
+function CheckoutScreen({ state, setState, go, reset }) {
   const [step,setStep]=useState(1);
   const [payment,setPayment]=useState('cb');
   const [cgv,setCgv]=useState(false);
@@ -2293,7 +2293,6 @@ function CheckoutScreen({ state, setState, go }) {
               <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
                 <button className="btn btn-primary" onClick={()=>{ setState(s=>({...s,cart:[]})); go('home'); }}>← Retour à l'accueil</button>
                 <button className="btn btn-outline-teal">📄 Télécharger la facture</button>
-                <button className="btn btn-ghost" onClick={()=>go('menu')}>↺ Menu scénarios</button>
               </div>
             </div>
           )}
@@ -2342,13 +2341,13 @@ function CheckoutScreen({ state, setState, go }) {
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go}/>
+      <BottomBar state={state} go={go} reset={reset}/>
     </div>
   );
 }
 
 // ─── SCREEN: NOTIF PREFS ──────────────────────────────────────────────────────
-function NotifPrefsScreen({ state, go }) {
+function NotifPrefsScreen({ state, go, reset }) {
   const TYPES = [
     { id:'cmd',    label:'Confirmation de commande', icon:'📦' },
     { id:'exp',    label:'Expédition',               icon:'🚚' },
@@ -2407,14 +2406,16 @@ function NotifPrefsScreen({ state, go }) {
           <button className="btn btn-ghost" onClick={()=>go(state.prevView||'home')}>Annuler</button>
         </div>
       </div>
-      <BottomBar state={state} go={go}/>
+      <BottomBar state={state} go={go} reset={reset}/>
     </div>
   );
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
+const INIT_STATE = { view:'home', prevView:'home', cart:[], productId:null, query:'' };
+
 function App() {
-  const [state,setState]=useState({ view:'menu', prevView:'menu', cart:[], productId:null, query:'' });
+  const [state,setState]=useState(INIT_STATE);
 
   function go(view,patch={}) {
     setState(s=>({ ...s,...patch,prevView:s.view,view }));
@@ -2423,11 +2424,16 @@ function App() {
   function setQuery(q) {
     setState(s=>({ ...s,query:q }));
   }
+  function reset() {
+    if(window.confirm('Réinitialiser le prototype ? Le panier et la navigation seront remis à zéro.')) {
+      setState(INIT_STATE);
+      window.scrollTo({ top:0,behavior:'instant' });
+    }
+  }
 
-  const p={ state,setState,go,setQuery };
+  const p={ state,setState,go,setQuery,reset };
   return (
     <>
-      {state.view==='menu'     && <MenuScreen     {...p}/>}
       {state.view==='home'     && <HomeScreen     {...p}/>}
       {state.view==='search'   && <SearchScreen   {...p}/>}
       {state.view==='product'  && <ProductScreen  {...p}/>}
