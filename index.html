@@ -1137,12 +1137,84 @@ const NOTIFS = [
 const net = p => +(p*(1-USER.discount)).toFixed(2);
 const fmt = n => n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
 const STOCK_CFG = {
-  ok:     { cls:'tag-success', txt:'En stock' },
-  warn:   { cls:'tag-warn',    txt:'Stock limité' },
-  out:    { cls:'tag-error',   txt:'Rupture de stock' },
-  reappro:{ cls:'tag-warn',   txt:'Réappro en cours' },
-  disc:   { cls:'tag-error',   txt:'Arrêté définitivement' },
+  ok:     { cls:'tag-success', txt:'En stock',            txten:'In stock' },
+  warn:   { cls:'tag-warn',    txt:'Stock limité',        txten:'Low stock' },
+  out:    { cls:'tag-error',   txt:'Rupture de stock',    txten:'Out of stock' },
+  reappro:{ cls:'tag-warn',   txt:'Réappro en cours',    txten:'Restocking' },
+  disc:   { cls:'tag-error',   txt:'Arrêté définitivement', txten:'Discontinued' },
 };
+
+// ─── I18N ─────────────────────────────────────────────────────────────────────
+const TRANS = {
+fr:{
+  'search.ph':'Nom, marque, réf LPV ou réf client VS-…','search.enter':'Appuyez sur Entrée pour voir tous les résultats',
+  'nav.ecigarettes':'E-cigarettes','nav.eliquides':'E-liquides','nav.resistances':'Résistances','nav.accessoires':'Accessoires','nav.marques':'Marques','nav.promos':'Promos',
+  'nav.seeAll':'Voir tout','nav.new':'Nouveautés','nav.yourDiscount':'Votre remise','nav.encours':'Encours autorisé','nav.used':'utilisés',
+  'home.badge':'Nouveautés printemps 2026','home.hello':'Bonjour','home.heroDesc':'Découvrez nos nouvelles références e-liquides et accessoires. Livraison sous 24–48 h, votre remise −18% appliquée automatiquement.',
+  'home.catalog':'Voir le catalogue','home.myCart':'Mon panier','home.recentOrders':'Mes dernières commandes','home.reorder':'↺ Recommander',
+  'home.oftenBought':'Souvent achetés par vous','home.newRecs':'Nouveautés recommandées','home.freqOrdered':'Fréquemment commandés par',
+  'home.ref':'référence','home.refs':'références','home.loomixCta':'JE FONCE',
+  'search.title':'Catalogue','search.results':'Résultats','search.product':'produit','search.products':'produits',
+  'search.filters':'Filtres','search.brand':'Marque','search.family':'Famille','search.stockF':'Stock',
+  'search.clear':'✕ Réinitialiser filtres','search.sortStock':'Disponibilité','search.sortAsc':'Prix croissant','search.sortDesc':'Prix décroissant','search.sortName':'Nom A → Z',
+  'search.hint':'Recherchez par nom, marque, référence LPV ou référence client (ex : VS-5012)','search.refFound':'Référence client','search.refSuffix':'retrouvée via mapping réf interne LPV.',
+  'product.back':'← Retour','product.packaging':'Conditionnement','product.qty':'Quantité','product.addCart':'Ajouter au panier','product.adding':'Ajout en cours…',
+  'product.disc':'Article arrêté','product.reappro':'En réapprovisionnement','product.outOfStock':'Stock épuisé','product.quote':'Devis',
+  'product.desc':'Description','product.carac':'Caractéristiques','product.avis':'Avis',
+  'cart.title':'Mon panier','cart.saved':'💾 Panier sauvegardé','cart.art1':'article','cart.arts':'articles','cart.ref1':'référence','cart.refs':'références',
+  'cart.empty':'Panier vide','cart.emptyDesc':'Ajoutez des produits depuis le catalogue.','cart.explore':'Explorer le catalogue',
+  'cart.subtBase':'Sous-total HT (base)','cart.disc':'Votre remise','cart.subtNet':'Sous-total HT remisé','cart.ship':'Livraison','cart.vat':'TVA 20%','cart.total':'Total TTC',
+  'cart.pay':'🔒 Passer au paiement','cart.continue':'← Continuer mes achats','cart.quote':'Sauvegarder en devis',
+  'cart.recap':'Récapitulatif','cart.yourOrder':'Votre commande',
+  'checkout.step1':'Adresses','checkout.step2':'Paiement','checkout.step3':'Confirmation',
+  'checkout.home':'← Accueil','checkout.secure':'🔒 Paiement sécurisé · TLS 1.2+','checkout.bcRef':'Référence bon de commande client (optionnel)',
+  'checkout.continue':'Continuer →','checkout.newAddr':'+ Nouvelle adresse','checkout.modify':'Modifier',
+  'checkout.billing':'Facturation','checkout.shipping':'Livraison',
+  'checkout.cgv':'J\'accepte les','checkout.cgvLink':'CGV B2B','checkout.back':'← Retour','checkout.confirm':'🔒 Confirmer et payer',
+  'checkout.confirmed':'Commande confirmée !','checkout.thanks':'Merci','checkout.registered':'commande','checkout.registeredFor':'enregistrée pour',
+  'checkout.backHome':'← Retour à l\'accueil','checkout.invoice':'📄 Télécharger la facture',
+  'notifs.title':'Notifications','notifs.unread':'non lues','notifs.markAll':'Tout lire','notifs.prefs':'⚙ Préférences',
+  'notifs.prefTitle':'Préférences de notification','notifs.save':'Enregistrer','notifs.cancel':'Annuler',
+  'notifs.channelApp':'In-app','notifs.channelEmail':'Email',
+  'footer.proto':'Prototype interactif LPV•pro','footer.home':'Accueil','footer.search':'Recherche','footer.cart':'Panier',
+  'footer.reset':'↺ Réinitialiser','footer.confirm':'Réinitialiser le prototype ? Le panier et la navigation seront remis à zéro.',
+  'view.home':'Accueil','view.search':'Recherche','view.product':'Fiche produit','view.cart':'Panier','view.checkout':'Checkout','view.notifPrefs':'Notifs',
+},
+en:{
+  'search.ph':'Name, brand, LPV ref or client ref VS-…','search.enter':'Press Enter to see all results',
+  'nav.ecigarettes':'E-cigarettes','nav.eliquides':'E-liquids','nav.resistances':'Coils','nav.accessoires':'Accessories','nav.marques':'Brands','nav.promos':'Deals',
+  'nav.seeAll':'See all','nav.new':'New arrivals','nav.yourDiscount':'Your discount','nav.encours':'Credit limit','nav.used':'used',
+  'home.badge':'New arrivals — Spring 2026','home.hello':'Hello','home.heroDesc':'Discover our new e-liquid and accessory references. Delivery in 24–48h, your −18% discount applied automatically.',
+  'home.catalog':'View catalogue','home.myCart':'My cart','home.recentOrders':'My recent orders','home.reorder':'↺ Reorder',
+  'home.oftenBought':'Frequently purchased by you','home.newRecs':'Recommended new arrivals','home.freqOrdered':'Frequently ordered by',
+  'home.ref':'reference','home.refs':'references','home.loomixCta':'EXPLORE',
+  'search.title':'Catalogue','search.results':'Results','search.product':'product','search.products':'products',
+  'search.filters':'Filters','search.brand':'Brand','search.family':'Category','search.stockF':'Stock',
+  'search.clear':'✕ Clear filters','search.sortStock':'Availability','search.sortAsc':'Price low to high','search.sortDesc':'Price high to low','search.sortName':'Name A → Z',
+  'search.hint':'Search by name, brand, LPV reference or client reference (e.g. VS-5012)','search.refFound':'Client reference','search.refSuffix':'found via LPV internal ref mapping.',
+  'product.back':'← Back','product.packaging':'Packaging','product.qty':'Quantity','product.addCart':'Add to cart','product.adding':'Adding…',
+  'product.disc':'Discontinued','product.reappro':'Restocking','product.outOfStock':'Out of stock','product.quote':'Quote',
+  'product.desc':'Description','product.carac':'Specifications','product.avis':'Reviews',
+  'cart.title':'My cart','cart.saved':'💾 Cart saved','cart.art1':'item','cart.arts':'items','cart.ref1':'reference','cart.refs':'references',
+  'cart.empty':'Empty cart','cart.emptyDesc':'Add products from the catalogue.','cart.explore':'Explore catalogue',
+  'cart.subtBase':'Subtotal excl. VAT (base)','cart.disc':'Your discount','cart.subtNet':'Discounted subtotal excl. VAT','cart.ship':'Shipping','cart.vat':'VAT 20%','cart.total':'Total incl. VAT',
+  'cart.pay':'🔒 Proceed to payment','cart.continue':'← Continue shopping','cart.quote':'Save as quote',
+  'cart.recap':'Summary','cart.yourOrder':'Your order',
+  'checkout.step1':'Addresses','checkout.step2':'Payment','checkout.step3':'Confirmation',
+  'checkout.home':'← Home','checkout.secure':'🔒 Secure payment · TLS 1.2+','checkout.bcRef':'PO reference (optional)',
+  'checkout.continue':'Continue →','checkout.newAddr':'+ New address','checkout.modify':'Edit',
+  'checkout.billing':'Billing','checkout.shipping':'Shipping',
+  'checkout.cgv':'I accept the','checkout.cgvLink':'B2B T&Cs','checkout.back':'← Back','checkout.confirm':'🔒 Confirm and pay',
+  'checkout.confirmed':'Order confirmed!','checkout.thanks':'Thank you','checkout.registered':'order','checkout.registeredFor':'registered for',
+  'checkout.backHome':'← Back to home','checkout.invoice':'📄 Download invoice',
+  'notifs.title':'Notifications','notifs.unread':'unread','notifs.markAll':'Mark all read','notifs.prefs':'⚙ Settings',
+  'notifs.prefTitle':'Notification settings','notifs.save':'Save','notifs.cancel':'Cancel',
+  'notifs.channelApp':'In-app','notifs.channelEmail':'Email',
+  'footer.proto':'LPV•pro Interactive Prototype','footer.home':'Home','footer.search':'Search','footer.cart':'Cart',
+  'footer.reset':'↺ Reset','footer.confirm':'Reset prototype? Cart and navigation will be cleared.',
+  'view.home':'Home','view.search':'Search','view.product':'Product','view.cart':'Cart','view.checkout':'Checkout','view.notifPrefs':'Notifs',
+}};
+function t(lang,key){return(TRANS[lang]||TRANS.fr)[key]||TRANS.fr[key]||key;}
 
 // ─── PRIMITIVES ───────────────────────────────────────────────────────────────
 function Img({ w, h, label, r=6, style={}, src=null }) {
@@ -1165,9 +1237,10 @@ function Img({ w, h, label, r=6, style={}, src=null }) {
   );
 }
 
-function Stock({ stock, label, size=11 }) {
+function Stock({ stock, label, size=11, lang='fr' }) {
   const c = STOCK_CFG[stock]||STOCK_CFG.ok;
-  return <span className={`tag ${c.cls}`} style={{ fontSize:size }}>● {label||c.txt}</span>;
+  const txt = label || (lang==='en' ? c.txten : c.txt);
+  return <span className={`tag ${c.cls}`} style={{ fontSize:size }}>● {txt}</span>;
 }
 
 function Qty({ qty, onDec, onInc, max, onChange }) {
@@ -1226,25 +1299,26 @@ function MegaItem({ label, go }) {
   return <div className="mega-item" onClick={() => go('search',{query:''})}>{label}</div>;
 }
 
-function NavBar({ state, go, setQuery }) {
+function NavBar({ state, go, setQuery, lang='fr' }) {
   const cats = [
-    { key:'ecigarettes', label:'E-cigarettes', mega:true },
-    { key:'eliquides',   label:'E-liquides',   mega:true },
-    { key:'resistances', label:'Résistances',  mega:true },
-    { key:'accessoires', label:'Accessoires',  mega:true },
-    { key:'marques',     label:'Marques',      mega:true  },
-    { key:'promos',      label:'Promos',       mega:false, hl:true },
+    { key:'ecigarettes', mega:true },
+    { key:'eliquides',   mega:true },
+    { key:'resistances', mega:true },
+    { key:'accessoires', mega:true },
+    { key:'marques',     mega:true  },
+    { key:'promos',      mega:false, hl:true },
   ];
 
   return (
     <div className="nav-bar">
       {cats.map(c => {
+        const label = t(lang,'nav.'+c.key);
         const mega = MEGA[c.key];
         if (mega) {
           return (
             <div key={c.key} className="mega-wrap">
               <div className={`nav-item${c.hl?' highlight':''}`}>
-                {c.label} <span style={{ fontSize:9, marginLeft:2 }}>▾</span>
+                {label} <span style={{ fontSize:9, marginLeft:2 }}>▾</span>
               </div>
               <div className="mega-menu" style={{ gridTemplateColumns:`repeat(${mega.cols.length},1fr)` }}>
                 {mega.cols.map(col => (
@@ -1256,9 +1330,9 @@ function NavBar({ state, go, setQuery }) {
                   </div>
                 ))}
                 <div style={{ gridColumn:`1/-1`, marginTop:12, paddingTop:12, borderTop:`1px solid var(--beige-d)`, display:'flex', gap:8 }}>
-                  <span className="tag tag-teal" style={{ cursor:'pointer' }} onClick={() => go('search')}>Voir tout — {mega.title}</span>
-                  <span className="tag tag-orange">Nouveautés</span>
-                  <span className="tag tag-yellow">Votre remise</span>
+                  <span className="tag tag-teal" style={{ cursor:'pointer' }} onClick={() => go('search')}>{t(lang,'nav.seeAll')} — {mega.title}</span>
+                  <span className="tag tag-orange">{t(lang,'nav.new')}</span>
+                  <span className="tag tag-yellow">{t(lang,'nav.yourDiscount')}</span>
                 </div>
               </div>
             </div>
@@ -1266,14 +1340,14 @@ function NavBar({ state, go, setQuery }) {
         }
         return (
           <div key={c.key} className={`nav-item${c.hl?' highlight':''}`} onClick={() => go('search')}>
-            {c.label}
+            {label}
           </div>
         );
       })}
       <div style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:10, paddingLeft:16, borderLeft:'1px solid var(--border)' }}>
         <div style={{ display:'flex', flexDirection:'column', gap:3, alignItems:'flex-end' }}>
           <div style={{ fontSize:11, color:'var(--ink-3)', whiteSpace:'nowrap' }}>
-            Encours autorisé :&nbsp;
+            {t(lang,'nav.encours')} :&nbsp;
             <strong style={{ color:'var(--ink)', fontFamily:'var(--font-title)' }}>
               {USER.encours.total.toLocaleString('fr-FR')} €
             </strong>
@@ -1283,7 +1357,7 @@ function NavBar({ state, go, setQuery }) {
               <div style={{ width:`${Math.round(USER.encours.used/USER.encours.total*100)}%`, height:'100%', background: USER.encours.used/USER.encours.total > .8 ? 'var(--error)' : 'var(--warn)', borderRadius:99 }}/>
             </div>
             <span style={{ fontSize:11, fontWeight:700, color: USER.encours.used/USER.encours.total > .8 ? 'var(--error)' : 'var(--warn)', whiteSpace:'nowrap' }}>
-              {USER.encours.used.toLocaleString('fr-FR')} € utilisés
+              {USER.encours.used.toLocaleString('fr-FR')} € {t(lang,'nav.used')}
             </span>
           </div>
         </div>
@@ -1293,9 +1367,8 @@ function NavBar({ state, go, setQuery }) {
 }
 
 // ─── TOP BAR ──────────────────────────────────────────────────────────────────
-function TopBar({ state, go, setQuery }) {
+function TopBar({ state, go, setQuery, lang, setLang }) {
   const n = state.cart.reduce((s,l)=>s+l.qty,0);
-  const [lang,setLang] = useState('fr');
   const [acOpen,setAcOpen] = useState(false);
   const [notifOpen,setNotifOpen] = useState(false);
   const [allRead,setAllRead] = useState(false);
@@ -1334,7 +1407,7 @@ function TopBar({ state, go, setQuery }) {
           value={state.query||''}
           onChange={e=>{ setQuery(e.target.value); if(state.view!=='search') go('search'); setAcOpen(true); }}
           onFocus={() => { setAcOpen(true); if(state.view!=='search') go('search'); }}
-          placeholder="Nom, marque, réf LPV ou réf client VS-…"
+          placeholder={t(lang,'search.ph')}
         />
         {acOpen && suggestions.length > 0 && (
           <div className="ac-drop">
@@ -1350,7 +1423,7 @@ function TopBar({ state, go, setQuery }) {
               </div>
             ))}
             <div style={{ padding:'7px 14px', fontSize:11, color:'var(--ink-3)', background:'var(--beige)' }}>
-              Appuyez sur Entrée pour voir tous les résultats
+              {t(lang,'search.enter')}
             </div>
           </div>
         )}
@@ -1369,10 +1442,10 @@ function TopBar({ state, go, setQuery }) {
           {notifOpen && (
             <div style={{ position:'absolute', top:'calc(100% + 14px)', right:0, width:360, background:'var(--white)', border:'1px solid var(--border)', borderRadius:'var(--r)', boxShadow:'0 8px 32px rgba(0,0,0,.12)', zIndex:400 }}>
               <div style={{ padding:'12px 16px', borderBottom:'1px solid var(--beige-d)', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-                <span style={{ fontFamily:'var(--font-title)', fontSize:15, fontWeight:700, textTransform:'uppercase' }}>Notifications</span>
+                <span style={{ fontFamily:'var(--font-title)', fontSize:15, fontWeight:700, textTransform:'uppercase' }}>{t(lang,'notifs.title')}</span>
                 <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-                  {!allRead && NOTIFS.filter(x=>x.unread).length>0 && <span className="tag tag-teal" style={{ fontSize:10 }}>{NOTIFS.filter(x=>x.unread).length} non lues</span>}
-                  {!allRead && <button onClick={()=>setAllRead(true)} style={{ fontSize:11, color:'var(--teal)', fontWeight:600, textDecoration:'underline', cursor:'pointer', fontFamily:'var(--font-body)' }}>Tout lire</button>}
+                  {!allRead && NOTIFS.filter(x=>x.unread).length>0 && <span className="tag tag-teal" style={{ fontSize:10 }}>{NOTIFS.filter(x=>x.unread).length} {t(lang,'notifs.unread')}</span>}
+                  {!allRead && <button onClick={()=>setAllRead(true)} style={{ fontSize:11, color:'var(--teal)', fontWeight:600, textDecoration:'underline', cursor:'pointer', fontFamily:'var(--font-body)' }}>{t(lang,'notifs.markAll')}</button>}
                 </div>
               </div>
               <div style={{ maxHeight:440, overflowY:'auto' }}>
@@ -1395,7 +1468,7 @@ function TopBar({ state, go, setQuery }) {
               </div>
               <div style={{ padding:'10px 14px', borderTop:'1px solid var(--beige-d)', background:'var(--beige)' }}>
                 <button className="btn btn-outline-teal btn-sm btn-full" onClick={()=>{ setNotifOpen(false); go('notifPrefs'); }}>
-                  ⚙ Préférences de notifications
+                  {t(lang,'notifs.prefs')}
                 </button>
               </div>
             </div>
@@ -1407,7 +1480,7 @@ function TopBar({ state, go, setQuery }) {
         </div>
         <div className="top-action" onClick={() => go('cart')} style={{ position:'relative' }}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="22" height="22"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-10 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
-          <span>Panier</span>
+          <span>{t(lang,'footer.cart')}</span>
           {n>0 && <span className="badge">{n}</span>}
         </div>
       </div>
@@ -1416,21 +1489,24 @@ function TopBar({ state, go, setQuery }) {
 }
 
 // ─── BOTTOM BAR ───────────────────────────────────────────────────────────────
-const VLABELS = { menu:'Menu', home:'Accueil', search:'Recherche', product:'Fiche produit', cart:'Panier', checkout:'Checkout' };
-
-function BottomBar({ state, go, reset }) {
+function BottomBar({ state, go, reset, lang='fr' }) {
   const n = state.cart.reduce((s,l)=>s+l.qty,0);
+  const viewLabel = t(lang,'view.'+state.view)||state.view;
+  function doReset() {
+    if(window.confirm(t(lang,'footer.confirm'))) { reset(); }
+  }
   return (
     <div className="bottom-bar">
       <div style={{ width:8, height:8, borderRadius:'50%', background:'var(--teal)', flexShrink:0 }}/>
-      <span style={{ opacity:.6 }}>Prototype interactif LPV•pro</span>
+      <span style={{ opacity:.6 }}>{t(lang,'footer.proto')}</span>
       <span style={{ opacity:.4 }}>·</span>
-      <strong style={{ fontSize:13, color:'var(--yellow)' }}>{VLABELS[state.view]||state.view}</strong>
+      <strong style={{ fontSize:13, color:'var(--yellow)' }}>{viewLabel}</strong>
       <div className="bottom-nav">
-        {[['home','Accueil'],['search','Recherche'],['cart',`Panier (${n})`]].map(([v,l])=>(
-          <span key={v} className={`bnav${state.view===v?' on':''}`} onClick={()=>go(v)}>{l}</span>
-        ))}
-        <span className="bnav back" onClick={reset} title="Remettre le prototype à zéro">↺ Réinitialiser</span>
+        {[[' home',t(lang,'footer.home')],[' search',t(lang,'footer.search')],[' cart',`${t(lang,'footer.cart')} (${n})`]].map(([v,l])=>{
+          const vk=v.trim();
+          return <span key={vk} className={`bnav${state.view===vk?' on':''}`} onClick={()=>go(vk)}>{l}</span>;
+        })}
+        <span className="bnav back" onClick={doReset} title={t(lang,'footer.confirm')}>{t(lang,'footer.reset')}</span>
       </div>
     </div>
   );
@@ -1532,38 +1608,52 @@ function MenuScreen({ go, setState }) {
 }
 
 // ─── SCREEN 1: HOME ───────────────────────────────────────────────────────────
-function HomeScreen({ state, setState, go, setQuery, reset }) {
+function HomeScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
   return (
     <div>
-      <TopBar state={state} go={go} setQuery={setQuery}/>
-      <NavBar state={state} go={go} setQuery={setQuery}/>
+      <TopBar state={state} go={go} setQuery={setQuery} lang={lang} setLang={setLang}/>
+      <NavBar state={state} go={go} setQuery={setQuery} lang={lang}/>
       <div className="page">
         {/* Hero banner */}
         <div className="card" style={{ background:`linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%)`, color:'#fff', padding:'28px 32px', marginBottom:24, display:'flex', justifyContent:'space-between', alignItems:'center', gap:24, position:'relative', overflow:'visible' }}>
           <div>
-            <div className="tag tag-yellow" style={{ marginBottom:10 }}>Nouveautés printemps 2026</div>
+            <div className="tag tag-yellow" style={{ marginBottom:10 }}>{t(lang,'home.badge')}</div>
             <div style={{ fontFamily:'var(--font-title)', fontSize:30, fontWeight:700, textTransform:'uppercase', lineHeight:1.1, marginBottom:8 }}>
-              Bonjour {USER.name.split(' ')[0]} 👋
+              {t(lang,'home.hello')} {USER.name.split(' ')[0]} 👋
             </div>
             <div style={{ fontSize:14, opacity:.9, marginBottom:18, maxWidth:420, lineHeight:1.6 }}>
-              Découvrez nos nouvelles références e-liquides et accessoires. Livraison sous 24–48 h, votre remise −18% appliquée automatiquement.
+              {t(lang,'home.heroDesc')}
             </div>
             <div style={{ display:'flex', gap:10 }}>
-              <button className="btn btn-primary" onClick={()=>go('search')}>Voir le catalogue</button>
+              <button className="btn btn-primary" onClick={()=>go('search')}>{t(lang,'home.catalog')}</button>
               {state.cart.length>0 && (
                 <button className="btn" style={{ background:'rgba(255,255,255,.2)', color:'#fff', border:'2px solid rgba(255,255,255,.4)', borderRadius:'var(--r)', padding:'9px 18px', fontFamily:'var(--font-title)', fontWeight:600, fontSize:13 }}
                   onClick={()=>go('cart')}>
-                  Mon panier ({state.cart.reduce((s,l)=>s+l.qty,0)})
+                  {t(lang,'home.myCart')} ({state.cart.reduce((s,l)=>s+l.qty,0)})
                 </button>
               )}
             </div>
           </div>
-          <Img w={220} h={150} label="Visuel" r={8} style={{ flexShrink:0 }}/>
+          {/* Aspire Loomix promo banner */}
+          <div onClick={()=>go('search')} style={{ width:148, minHeight:210, borderRadius:12, flexShrink:0, background:'linear-gradient(150deg,#A970E8 0%,#7B3FCC 45%,#5522A0 100%)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', color:'#fff', textAlign:'center', position:'relative', overflow:'hidden', cursor:'pointer', padding:'18px 12px', userSelect:'none' }}>
+            {/* Sunburst */}
+            <svg style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',opacity:.12}} viewBox="0 0 148 210" preserveAspectRatio="none">
+              {[...Array(14)].map((_,i)=>{const a=(i/14)*Math.PI*2;return <line key={i} x1="74" y1="105" x2={74+250*Math.cos(a)} y2={105+250*Math.sin(a)} stroke="white" strokeWidth="1.5"/>;}) }
+            </svg>
+            {/* Aspire wordmark */}
+            <div style={{fontSize:10,fontWeight:800,letterSpacing:3,opacity:.85,marginBottom:8,textTransform:'uppercase',fontFamily:'var(--font-title)'}}>◎ aspire</div>
+            <div style={{fontSize:11,fontStyle:'italic',opacity:.88,marginBottom:1,fontFamily:'serif'}}>découvrez</div>
+            <div style={{fontFamily:'var(--font-title)',fontSize:13,fontWeight:700,textTransform:'uppercase',lineHeight:1.15,marginBottom:1}}>LA NOUVEAUTÉ</div>
+            <div style={{fontFamily:'var(--font-title)',fontSize:32,fontWeight:700,textTransform:'uppercase',lineHeight:1,marginBottom:16,letterSpacing:-1}}>LOOMIX</div>
+            <div style={{background:'rgba(0,0,0,.35)',color:'#fff',padding:'6px 18px',borderRadius:4,fontSize:10,fontFamily:'var(--font-title)',fontWeight:700,letterSpacing:1.5,textTransform:'uppercase'}}>
+              {t(lang,'home.loomixCta')}
+            </div>
+          </div>
         </div>
 
         {/* Commandes récentes */}
         <div style={{ marginBottom:32 }}>
-          <div className="section-title" style={{ marginBottom:16 }}>Mes dernières commandes</div>
+          <div className="section-title" style={{ marginBottom:16 }}>{t(lang,'home.recentOrders')}</div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14 }}>
             {RECENT_ORDERS.map(o=>(
               <div key={o.ref} className="card" style={{ padding:16, display:'flex', flexDirection:'column' }}>
@@ -1576,43 +1666,43 @@ function HomeScreen({ state, setState, go, setQuery, reset }) {
                 </div>
                 <div style={{ fontSize:12, color:'var(--ink-2)', lineHeight:1.5, marginBottom:10, overflow:'hidden', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}>{o.desc}</div>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'auto', paddingTop:8 }}>
-                  <span style={{ fontSize:11, color:'var(--ink-3)' }}>{o.n} référence{o.n>1?'s':''}</span>
+                  <span style={{ fontSize:11, color:'var(--ink-3)' }}>{o.n} {o.n>1?t(lang,'home.refs'):t(lang,'home.ref')}</span>
                   <span style={{ fontFamily:'var(--font-title)', fontSize:16, fontWeight:700, color:'var(--orange)' }}>{fmt(o.total)}</span>
                 </div>
-                <button className="btn btn-outline-teal btn-sm btn-full" style={{ marginTop:10 }}>↺ Recommander</button>
+                <button className="btn btn-outline-teal btn-sm btn-full" style={{ marginTop:10 }}>{t(lang,'home.reorder')}</button>
               </div>
             ))}
           </div>
         </div>
 
         <div>
-          <div className="section-title" style={{ marginBottom:16 }}>Souvent achetés par vous</div>
+          <div className="section-title" style={{ marginBottom:16 }}>{t(lang,'home.oftenBought')}</div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:14 }}>
             {HOME_OFTEN.map(id=>{ const p=BY_ID(id); return p ? <PCard key={p.id} p={p} go={go} setState={setState} state={state}/> : null; })}
           </div>
         </div>
 
         <div style={{ marginTop:32 }}>
-          <div className="section-title" style={{ marginBottom:16 }}>Nouveautés recommandées</div>
+          <div className="section-title" style={{ marginBottom:16 }}>{t(lang,'home.newRecs')}</div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:14 }}>
             {HOME_NEW.map(id=>{ const p=BY_ID(id); return p ? <PCard key={'new-'+p.id} p={p} go={go} setState={setState} state={state}/> : null; })}
           </div>
         </div>
 
         <div style={{ marginTop:32 }}>
-          <div className="section-title" style={{ marginBottom:16 }}>Fréquemment commandés par {USER.company}</div>
+          <div className="section-title" style={{ marginBottom:16 }}>{t(lang,'home.freqOrdered')} {USER.company}</div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:14 }}>
             {HOME_FREQ.map(id=>{ const p=BY_ID(id); return p ? <PCard key={'freq-'+p.id} p={p} go={go} setState={setState} state={state}/> : null; })}
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go} reset={reset}/>
+      <BottomBar state={state} go={go} reset={reset} lang={lang}/>
     </div>
   );
 }
 
 // ─── SCREEN 2: SEARCH ─────────────────────────────────────────────────────────
-function SearchScreen({ state, setState, go, setQuery, reset }) {
+function SearchScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
   const [fBrand,setFBrand] = useState([]);
   const [fFamily,setFFamily] = useState([]);
   const [fStock,setFStock] = useState([]);
@@ -1656,32 +1746,32 @@ function SearchScreen({ state, setState, go, setQuery, reset }) {
 
   return (
     <div>
-      <TopBar state={state} go={go} setQuery={setQuery}/>
-      <NavBar state={state} go={go} setQuery={setQuery}/>
+      <TopBar state={state} go={go} setQuery={setQuery} lang={lang} setLang={setLang}/>
+      <NavBar state={state} go={go} setQuery={setQuery} lang={lang}/>
       <div className="page">
         <div style={{ display:'flex', alignItems:'baseline', gap:12, marginBottom:6, flexWrap:'wrap' }}>
-          <div className="page-title">{q?`Résultats — « ${state.query} »`:'Catalogue'}</div>
-          <span style={{ color:'var(--ink-3)', fontSize:14 }}>{results.length} produit{results.length>1?'s':''}</span>
+          <div className="page-title">{q?`${t(lang,'search.results')} — « ${state.query} »`:t(lang,'search.title')}</div>
+          <span style={{ color:'var(--ink-3)', fontSize:14 }}>{results.length} {results.length>1?t(lang,'search.products'):t(lang,'search.product')}</span>
           <div style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:8 }}>
             {hasFilters && (
               <button className="btn btn-outline-teal btn-sm" onClick={()=>{setFBrand([]);setFFamily([]);setFStock([]);}}>
-                ✕ Réinitialiser filtres
+                {t(lang,'search.clear')}
               </button>
             )}
             <select value={sort} onChange={e=>setSort(e.target.value)} style={{ padding:'6px 10px', border:'2px solid var(--border)', borderRadius:'var(--r)', fontSize:12, fontFamily:'var(--font-body)', color:'var(--ink)', background:'var(--white)', cursor:'pointer' }}>
-              <option value="stock">Disponibilité</option>
-              <option value="price-asc">Prix croissant</option>
-              <option value="price-desc">Prix décroissant</option>
-              <option value="name">Nom A → Z</option>
+              <option value="stock">{t(lang,'search.sortStock')}</option>
+              <option value="price-asc">{t(lang,'search.sortAsc')}</option>
+              <option value="price-desc">{t(lang,'search.sortDesc')}</option>
+              <option value="name">{t(lang,'search.sortName')}</option>
             </select>
           </div>
         </div>
         <div style={{ fontSize:12, color:'var(--ink-3)', marginBottom:16 }}>
-          Recherchez par nom, marque, référence LPV ou référence client (ex : VS-5012)
+          {t(lang,'search.hint')}
         </div>
         {q && q.startsWith('vs-') && results.length>0 && (
           <div className="card" style={{ padding:12, marginBottom:14, background:'var(--teal-l)', border:'1.5px solid var(--teal)', display:'flex', gap:10, alignItems:'center' }}>
-            <span style={{ fontSize:13 }}>Référence client <strong>{state.query}</strong> retrouvée via mapping réf interne LPV.</span>
+            <span style={{ fontSize:13 }}>{t(lang,'search.refFound')} <strong>{state.query}</strong> {t(lang,'search.refSuffix')}</span>
           </div>
         )}
         <div style={{ display:'flex', gap:20, alignItems:'flex-start' }}>
@@ -1689,10 +1779,10 @@ function SearchScreen({ state, setState, go, setQuery, reset }) {
           <div className="filter-sidebar">
             <div className="filter-card">
               <div style={{ fontFamily:'var(--font-title)', fontSize:13, fontWeight:700, textTransform:'uppercase', color:'var(--teal)', marginBottom:14 }}>
-                Filtres
+                {t(lang,'search.filters')}
               </div>
               <div className="filter-group">
-                <div className="filter-group-title">Marque</div>
+                <div className="filter-group-title">{t(lang,'search.brand')}</div>
                 {allBrands.map(b=>(
                   <label key={b} className="filter-item">
                     <input type="checkbox" checked={fBrand.includes(b)} onChange={()=>tog(fBrand,setFBrand,b)}/>
@@ -1701,7 +1791,7 @@ function SearchScreen({ state, setState, go, setQuery, reset }) {
                 ))}
               </div>
               <div className="filter-group">
-                <div className="filter-group-title">Famille</div>
+                <div className="filter-group-title">{t(lang,'search.family')}</div>
                 {allFamilies.map(f=>(
                   <label key={f} className="filter-item">
                     <input type="checkbox" checked={fFamily.includes(f)} onChange={()=>tog(fFamily,setFFamily,f)}/>
@@ -1710,7 +1800,7 @@ function SearchScreen({ state, setState, go, setQuery, reset }) {
                 ))}
               </div>
               <div className="filter-group">
-                <div className="filter-group-title">Disponibilité</div>
+                <div className="filter-group-title">{t(lang,'search.stockF')}</div>
                 {Object.entries(SLABELS).map(([k,lbl])=>(
                   <label key={k} className="filter-item">
                     <input type="checkbox" checked={fStock.includes(k)} onChange={()=>tog(fStock,setFStock,k)}/>
@@ -1748,13 +1838,13 @@ function SearchScreen({ state, setState, go, setQuery, reset }) {
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go} reset={reset}/>
+      <BottomBar state={state} go={go} reset={reset} lang={lang}/>
     </div>
   );
 }
 
 // ─── SCREEN 3: PRODUCT ────────────────────────────────────────────────────────
-function ProductScreen({ state, setState, go, setQuery, reset }) {
+function ProductScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
   const p = PRODUCTS.find(x=>x.id===state.productId)||PRODUCTS[0];
   const [qty,setQty]=useState(1);
   const [tab,setTab]=useState('desc');
@@ -1789,12 +1879,12 @@ function ProductScreen({ state, setState, go, setQuery, reset }) {
 
   return (
     <div>
-      <TopBar state={state} go={go} setQuery={setQuery}/>
-      <NavBar state={state} go={go} setQuery={setQuery}/>
+      <TopBar state={state} go={go} setQuery={setQuery} lang={lang} setLang={setLang}/>
+      <NavBar state={state} go={go} setQuery={setQuery} lang={lang}/>
       <div className="page">
         {/* Breadcrumb */}
         <div style={{ fontSize:12, color:'var(--ink-3)', marginBottom:18, display:'flex', gap:6, alignItems:'center' }}>
-          <span style={{ cursor:'pointer', color:'var(--teal)' }} onClick={()=>go('home')}>Accueil</span>
+          <span style={{ cursor:'pointer', color:'var(--teal)' }} onClick={()=>go('home')}>{t(lang,'view.home')}</span>
           <span>›</span>
           <span style={{ cursor:'pointer', color:'var(--teal)' }} onClick={()=>go('search')}>{p.family}</span>
           <span>›</span>
@@ -1843,7 +1933,7 @@ function ProductScreen({ state, setState, go, setQuery, reset }) {
             </div>
 
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:11, fontWeight:700, color:'var(--ink-3)', textTransform:'uppercase', letterSpacing:'.5px', marginBottom:8 }}>Conditionnement</div>
+              <div style={{ fontSize:11, fontWeight:700, color:'var(--ink-3)', textTransform:'uppercase', letterSpacing:'.5px', marginBottom:8 }}>{t(lang,'product.packaging')}</div>
               <div style={{ display:'flex', gap:8 }}>
                 <button className="btn btn-secondary btn-sm">{p.pack}</button>
                 {p.pack!=='Unité' && <button className="btn btn-ghost btn-sm">Unité</button>}
@@ -1873,7 +1963,7 @@ function ProductScreen({ state, setState, go, setQuery, reset }) {
             )}
             <div style={{ display:'flex', gap:12, alignItems:'flex-end', marginBottom:16 }}>
               <div>
-                <div style={{ fontSize:11, fontWeight:700, color:'var(--ink-3)', textTransform:'uppercase', letterSpacing:'.5px', marginBottom:8 }}>Quantité</div>
+                <div style={{ fontSize:11, fontWeight:700, color:'var(--ink-3)', textTransform:'uppercase', letterSpacing:'.5px', marginBottom:8 }}>{t(lang,'product.qty')}</div>
                 <Qty qty={qty}
                   onDec={()=>setQty(q=>Math.max(1,q-1))}
                   onInc={()=>setQty(q=>Math.min(q+1, remaining))}
@@ -1881,13 +1971,13 @@ function ProductScreen({ state, setState, go, setQuery, reset }) {
                   max={remaining}/>
               </div>
               <button className="btn btn-primary btn-lg" disabled={unavail||adding||remaining===0} onClick={addToCart} style={{ flex:1 }}>
-                {adding ? <><span className="spin"/>Ajout en cours…</>
-                 : p.stock==='disc' ? 'Article arrêté'
-                 : p.stock==='reappro' ? 'En réapprovisionnement'
-                 : remaining === 0 ? 'Stock épuisé'
-                 : 'Ajouter au panier'}
+                {adding ? <><span className="spin"/>{t(lang,'product.adding')}</>
+                 : p.stock==='disc' ? t(lang,'product.disc')
+                 : p.stock==='reappro' ? t(lang,'product.reappro')
+                 : remaining === 0 ? t(lang,'product.outOfStock')
+                 : t(lang,'product.addCart')}
               </button>
-              <button className="btn btn-outline-teal">Devis</button>
+              <button className="btn btn-outline-teal">{t(lang,'product.quote')}</button>
             </div>
 
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
@@ -1908,7 +1998,7 @@ function ProductScreen({ state, setState, go, setQuery, reset }) {
 
         <div style={{ marginTop:28 }}>
           <div style={{ display:'flex', borderBottom:'2px solid var(--border)' }}>
-            {[['desc','Description'],['carac','Caractéristiques'],['avis','Avis']].map(([k,lbl])=>(
+            {[['desc',t(lang,'product.desc')],['carac',t(lang,'product.carac')],['avis',t(lang,'product.avis')]].map(([k,lbl])=>(
               <button key={k} onClick={()=>setTab(k)} style={{
                 padding:'10px 20px', fontSize:14, fontFamily:'var(--font-title)', fontWeight:600, textTransform:'uppercase',
                 color:tab===k?'var(--teal)':'var(--ink-3)',
@@ -1950,13 +2040,13 @@ function ProductScreen({ state, setState, go, setQuery, reset }) {
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go} reset={reset}/>
+      <BottomBar state={state} go={go} reset={reset} lang={lang}/>
     </div>
   );
 }
 
 // ─── SCREEN 4: CART ───────────────────────────────────────────────────────────
-function CartScreen({ state, setState, go, setQuery, reset }) {
+function CartScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
   const lines=state.cart;
   const [checkLoading,setCheckLoading]=useState(false);
   function update(id,qty){
@@ -1982,38 +2072,38 @@ function CartScreen({ state, setState, go, setQuery, reset }) {
 
   return (
     <div>
-      <TopBar state={state} go={go} setQuery={setQuery}/>
-      <NavBar state={state} go={go} setQuery={setQuery}/>
+      <TopBar state={state} go={go} setQuery={setQuery} lang={lang} setLang={setLang}/>
+      <NavBar state={state} go={go} setQuery={setQuery} lang={lang}/>
       <div className="page">
         <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:4, flexWrap:'wrap' }}>
-          <div className="page-title">Mon panier</div>
-          <span className="persist-chip">💾 Panier sauvegardé</span>
+          <div className="page-title">{t(lang,'cart.title')}</div>
+          <span className="persist-chip">{t(lang,'cart.saved')}</span>
         </div>
         <div style={{ fontSize:14, color:'var(--ink-3)', marginBottom:16 }}>
-          {lines.reduce((s,l)=>s+l.qty,0)} article{lines.reduce((s,l)=>s+l.qty,0)>1?'s':''} · {lines.length} référence{lines.length>1?'s':''}
+          {lines.reduce((s,l)=>s+l.qty,0)} {lines.reduce((s,l)=>s+l.qty,0)>1?t(lang,'cart.arts'):t(lang,'cart.art1')} · {lines.length} {lines.length>1?t(lang,'cart.refs'):t(lang,'cart.ref1')}
         </div>
         {hasDisc && (
           <div className="alert alert-error">
-            ⛔ <span><strong>Attention :</strong> votre panier contient un ou plusieurs articles arrêtés définitivement. Veuillez les supprimer pour finaliser la commande.</span>
+            ⛔ <span><strong>Attention :</strong> {t(lang,'cart.discAlert')}</span>
           </div>
         )}
         {!hasDisc && hasUnavail && (
           <div className="alert alert-warn">
-            ⚠ <span>Certains articles ont des délais de disponibilité étendus (rupture / réapprovisionnement). Les dates de livraison peuvent être impactées.</span>
+            ⚠ <span>{t(lang,'cart.unavailAlert')}</span>
           </div>
         )}
         {total > encoursLeft && lines.length > 0 && (
           <div className="alert alert-error">
-            🔒 <span>Total commande <strong>{fmt(total)}</strong> dépasse votre solde encours disponible <strong>{fmt(encoursLeft)}</strong>. Le paiement par encours sera indisponible.</span>
+            🔒 <span>{t(lang,'cart.encours')} <strong>{fmt(total)}</strong> {t(lang,'cart.exceeds')} <strong>{fmt(encoursLeft)}</strong>. {t(lang,'cart.payDisabled')}</span>
           </div>
         )}
 
         {lines.length===0 ? (
           <div className="card" style={{ padding:48, textAlign:'center' }}>
             <div style={{ fontSize:48, marginBottom:12 }}>🛒</div>
-            <div className="page-title" style={{ fontSize:22 }}>Panier vide</div>
-            <div style={{ color:'var(--ink-3)', marginTop:4, marginBottom:20 }}>Ajoutez des produits depuis le catalogue.</div>
-            <button className="btn btn-primary" onClick={()=>go('search')}>Explorer le catalogue</button>
+            <div className="page-title" style={{ fontSize:22 }}>{t(lang,'cart.empty')}</div>
+            <div style={{ color:'var(--ink-3)', marginTop:4, marginBottom:20 }}>{t(lang,'cart.emptyDesc')}</div>
+            <button className="btn btn-primary" onClick={()=>go('search')}>{t(lang,'cart.explore')}</button>
           </div>
         ) : (
           <div style={{ display:'grid', gridTemplateColumns:'1fr 360px', gap:22 }}>
@@ -2039,20 +2129,20 @@ function CartScreen({ state, setState, go, setQuery, reset }) {
                 );
               })}
               <div style={{ display:'flex', gap:10, marginTop:8 }}>
-                <button className="btn btn-ghost btn-sm" onClick={()=>go('search')}>← Continuer mes achats</button>
-                <button className="btn btn-outline-teal btn-sm" style={{ marginLeft:'auto' }}>Sauvegarder en devis</button>
+                <button className="btn btn-ghost btn-sm" onClick={()=>go('search')}>{t(lang,'cart.continue')}</button>
+                <button className="btn btn-outline-teal btn-sm" style={{ marginLeft:'auto' }}>{t(lang,'cart.quote')}</button>
               </div>
             </div>
 
             <div>
               <div className="card" style={{ padding:20 }}>
-                <div style={{ fontFamily:'var(--font-title)', fontSize:20, fontWeight:700, textTransform:'uppercase', marginBottom:16 }}>Récapitulatif</div>
+                <div style={{ fontFamily:'var(--font-title)', fontSize:20, fontWeight:700, textTransform:'uppercase', marginBottom:16 }}>{t(lang,'cart.recap')}</div>
                 {[
-                  ['Sous-total HT (base)', fmt(subtBase), ''],
-                  [`Votre remise (−${USER.discount*100}%)`, '−'+fmt(remise), 'var(--success)'],
-                  ['Sous-total HT remisé', fmt(subtNet), ''],
-                  ['Livraison', fmt(ship), ''],
-                  ['TVA 20%', fmt(tva), ''],
+                  [t(lang,'cart.subtBase'), fmt(subtBase), ''],
+                  [`${t(lang,'cart.disc')} (−${USER.discount*100}%)`, '−'+fmt(remise), 'var(--success)'],
+                  [t(lang,'cart.subtNet'), fmt(subtNet), ''],
+                  [t(lang,'cart.ship'), fmt(ship), ''],
+                  [t(lang,'cart.vat'), fmt(tva), ''],
                 ].map(([k,v,c])=>(
                   <div key={k} style={{ display:'flex', justifyContent:'space-between', fontSize:13, padding:'5px 0', borderBottom:'1px solid var(--beige-d)' }}>
                     <span style={{ color:c||'var(--ink-3)' }}>{k}</span>
@@ -2060,11 +2150,11 @@ function CartScreen({ state, setState, go, setQuery, reset }) {
                   </div>
                 ))}
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:16, paddingTop:12, borderTop:'2px solid var(--ink)' }}>
-                  <span style={{ fontFamily:'var(--font-title)', fontSize:20, fontWeight:700, textTransform:'uppercase' }}>Total TTC</span>
+                  <span style={{ fontFamily:'var(--font-title)', fontSize:20, fontWeight:700, textTransform:'uppercase' }}>{t(lang,'cart.total')}</span>
                   <span style={{ fontFamily:'var(--font-title)', fontSize:28, fontWeight:700, color:'var(--orange)' }}>{fmt(total)}</span>
                 </div>
                 <button className="btn btn-primary btn-lg btn-full" style={{ marginTop:18 }} disabled={checkLoading||hasDisc} onClick={goCheckout}>
-                  {checkLoading ? <><span className="spin"/>Validation en cours…</> : '🔒 Passer au paiement'}
+                  {checkLoading ? <><span className="spin"/>…</> : t(lang,'cart.pay')}
                 </button>
                 <div style={{ marginTop:12 }}>
                   <span className="tag tag-warn" style={{ fontSize:11 }}>Encours : 65% utilisé</span>
@@ -2074,13 +2164,13 @@ function CartScreen({ state, setState, go, setQuery, reset }) {
           </div>
         )}
       </div>
-      <BottomBar state={state} go={go} reset={reset}/>
+      <BottomBar state={state} go={go} reset={reset} lang={lang}/>
     </div>
   );
 }
 
 // ─── SCREEN 5: CHECKOUT ───────────────────────────────────────────────────────
-function CheckoutScreen({ state, setState, go, reset }) {
+function CheckoutScreen({ state, setState, go, reset, lang, setLang }) {
   const [step,setStep]=useState(1);
   const [payment,setPayment]=useState('cb');
   const [cgv,setCgv]=useState(false);
@@ -2096,7 +2186,7 @@ function CheckoutScreen({ state, setState, go, reset }) {
   const total=+(subtNet+ship+tva).toFixed(2);
   const encoursLeft=USER.encours.total-USER.encours.used;
   const exceedsEncours=total>encoursLeft;
-  const STEPS=['Adresses','Paiement','Confirmation'];
+  const STEPS=[t(lang,'checkout.step1'),t(lang,'checkout.step2'),t(lang,'checkout.step3')];
 
   return (
     <div style={{ minHeight:'100vh', background:'var(--beige)' }}>
@@ -2109,7 +2199,7 @@ function CheckoutScreen({ state, setState, go, reset }) {
           </div>
           {step < 3 && (
             <button className="btn btn-ghost btn-sm" style={{ marginLeft:8 }} onClick={()=>go('home')}>
-              ← Accueil
+              {t(lang,'checkout.home')}
             </button>
           )}
         </div>
@@ -2131,7 +2221,7 @@ function CheckoutScreen({ state, setState, go, reset }) {
           })}
         </div>
         <div style={{ fontSize:12, color:'var(--ink-3)', display:'flex', gap:6, alignItems:'center', flexShrink:0 }}>
-          🔒 Paiement sécurisé · TLS 1.2+
+          {t(lang,'checkout.secure')}
         </div>
       </div>
 
@@ -2144,12 +2234,12 @@ function CheckoutScreen({ state, setState, go, reset }) {
                 <div className={`step-dot ${step>1?'sd-done':'sd-active'}`}>{step>1?'✓':'1'}</div>
                 <span style={{ fontFamily:'var(--font-title)', fontSize:18, fontWeight:700, textTransform:'uppercase' }}>Adresses</span>
               </div>
-              {step>1 && <button className="btn btn-outline-teal btn-sm" onClick={()=>setStep(1)}>Modifier</button>}
+              {step>1 && <button className="btn btn-outline-teal btn-sm" onClick={()=>setStep(1)}>{t(lang,'checkout.modify')}</button>}
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
               {[
-                { label:'Facturation', icon:'🧾', addr:USER.billing, sub:`SIRET ${USER.billing.siret}` },
-                { label:'Livraison',   icon:'🚚', addr:USER.shipping, sub:`Transporteur : ${USER.shipping.carrier}` },
+                { label:t(lang,'checkout.billing'), icon:'🧾', addr:USER.billing, sub:`SIRET ${USER.billing.siret}` },
+                { label:t(lang,'checkout.shipping'), icon:'🚚', addr:USER.shipping, sub:(lang==='en'?'Carrier':'Transporteur')+` : ${USER.shipping.carrier}` },
               ].map(({ label, icon, addr, sub })=>(
                 <div key={label} style={{ padding:14, background:'var(--beige)', borderRadius:'var(--r)', border:'1px solid var(--border)' }}>
                   <div style={{ fontFamily:'var(--font-title)', fontSize:13, fontWeight:700, color:'var(--teal)', textTransform:'uppercase', marginBottom:8 }}>{icon} {label}</div>
@@ -2162,13 +2252,13 @@ function CheckoutScreen({ state, setState, go, reset }) {
             </div>
             {/* BC ref field */}
             <div className="field" style={{ marginTop:16 }}>
-              <label>Référence bon de commande client (optionnel)</label>
+              <label>{t(lang,'checkout.bcRef')}</label>
               <input className="field-input" value={bcRef} onChange={e=>setBcRef(e.target.value)} placeholder="Ex : BC-2025-0156"/>
             </div>
             {step===1 && (
               <div style={{ display:'flex', gap:10, marginTop:18 }}>
-                <button className="btn btn-primary" onClick={()=>setStep(2)}>Continuer →</button>
-                <button className="btn btn-ghost btn-sm">+ Nouvelle adresse</button>
+                <button className="btn btn-primary" onClick={()=>setStep(2)}>{t(lang,'checkout.continue')}</button>
+                <button className="btn btn-ghost btn-sm">{t(lang,'checkout.newAddr')}</button>
               </div>
             )}
           </div>
@@ -2181,7 +2271,7 @@ function CheckoutScreen({ state, setState, go, reset }) {
                   <div className={`step-dot ${step>2?'sd-done':'sd-active'}`}>{step>2?'✓':'2'}</div>
                   <span style={{ fontFamily:'var(--font-title)', fontSize:18, fontWeight:700, textTransform:'uppercase' }}>Paiement</span>
                 </div>
-                {step>2 && <button className="btn btn-outline-teal btn-sm" onClick={()=>setStep(2)}>Modifier</button>}
+                {step>2 && <button className="btn btn-outline-teal btn-sm" onClick={()=>setStep(2)}>{t(lang,'checkout.modify')}</button>}
               </div>
 
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:12, marginBottom:18 }}>
@@ -2252,12 +2342,12 @@ function CheckoutScreen({ state, setState, go, reset }) {
                 <>
                   <label style={{ display:'flex', gap:10, alignItems:'center', marginBottom:18, cursor:'pointer', fontSize:14 }}>
                     <input type="checkbox" checked={cgv} onChange={e=>setCgv(e.target.checked)} style={{ width:16, height:16, accentColor:'var(--teal)' }}/>
-                    J'accepte les <span style={{ color:'var(--teal)', textDecoration:'underline' }}>CGV B2B</span>
+                    {t(lang,'checkout.cgv')} <span style={{ color:'var(--teal)', textDecoration:'underline' }}>{t(lang,'checkout.cgvLink')}</span>
                   </label>
                   <div style={{ display:'flex', gap:10 }}>
-                    <button className="btn btn-ghost" onClick={()=>setStep(1)}>← Retour</button>
+                    <button className="btn btn-ghost" onClick={()=>setStep(1)}>{t(lang,'checkout.back')}</button>
                     <button className="btn btn-primary btn-lg" disabled={!cgv} onClick={()=>setStep(3)}>
-                      🔒 Confirmer et payer
+                      {t(lang,'checkout.confirm')}
                     </button>
                   </div>
                 </>
@@ -2271,9 +2361,9 @@ function CheckoutScreen({ state, setState, go, reset }) {
               <div style={{ display:'flex', gap:16, alignItems:'flex-start', marginBottom:20 }}>
                 <div style={{ width:52, height:52, borderRadius:'50%', background:'var(--success)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:24 }}>✓</div>
                 <div>
-                  <div style={{ fontFamily:'var(--font-title)', fontSize:28, fontWeight:700, color:'var(--success)', textTransform:'uppercase' }}>Commande confirmée !</div>
+                  <div style={{ fontFamily:'var(--font-title)', fontSize:28, fontWeight:700, color:'var(--success)', textTransform:'uppercase' }}>{t(lang,'checkout.confirmed')}</div>
                   <div style={{ fontSize:14, marginTop:4 }}>
-                    Merci {USER.name.split(' ')[0]}, commande <strong>{orderRef}</strong> enregistrée pour <strong>{fmt(total)}</strong>.
+                    {t(lang,'checkout.thanks')} {USER.name.split(' ')[0]}, {t(lang,'checkout.registered')} <strong>{orderRef}</strong> {t(lang,'checkout.registeredFor')} <strong>{fmt(total)}</strong>.
                   </div>
                 </div>
               </div>
@@ -2291,8 +2381,8 @@ function CheckoutScreen({ state, setState, go, reset }) {
                 ))}
               </div>
               <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
-                <button className="btn btn-primary" onClick={()=>{ setState(s=>({...s,cart:[]})); go('home'); }}>← Retour à l'accueil</button>
-                <button className="btn btn-outline-teal">📄 Télécharger la facture</button>
+                <button className="btn btn-primary" onClick={()=>{ setState(s=>({...s,cart:[]})); go('home'); }}>{t(lang,'checkout.backHome')}</button>
+                <button className="btn btn-outline-teal">{t(lang,'checkout.invoice')}</button>
               </div>
             </div>
           )}
@@ -2302,7 +2392,7 @@ function CheckoutScreen({ state, setState, go, reset }) {
         <div>
           <div className="card" style={{ padding:20, position:'sticky', top:80 }}>
             <div style={{ fontFamily:'var(--font-title)', fontSize:18, fontWeight:700, textTransform:'uppercase', marginBottom:14 }}>
-              Votre commande <span style={{ color:'var(--ink-3)', fontWeight:400, fontSize:14 }}>· {lines.length} réf.</span>
+              {t(lang,'cart.yourOrder')} <span style={{ color:'var(--ink-3)', fontWeight:400, fontSize:14 }}>· {lines.length} {t(lang,'cart.ref1')}.</span>
             </div>
             {bcRef && (
               <div style={{ fontSize:12, color:'var(--ink-3)', marginBottom:10, padding:'6px 10px', background:'var(--beige)', borderRadius:'var(--r)', display:'flex', justifyContent:'space-between' }}>
@@ -2324,30 +2414,30 @@ function CheckoutScreen({ state, setState, go, reset }) {
             ))}
             <div style={{ marginTop:12 }}>
               {[
-                ['Sous-total HT', fmt(subtNet)],
-                [`Votre remise (−${USER.discount*100}%)`, '−'+fmt(remise), 'var(--success)'],
-                ['Livraison', fmt(ship)],
-                ['TVA 20%', fmt(tva)],
+                [t(lang,'cart.subtNet'), fmt(subtNet)],
+                [`${t(lang,'cart.disc')} (−${USER.discount*100}%)`, '−'+fmt(remise), 'var(--success)'],
+                [t(lang,'cart.ship'), fmt(ship)],
+                [t(lang,'cart.vat'), fmt(tva)],
               ].map(([k,v,c])=>(
                 <div key={k} style={{ display:'flex', justifyContent:'space-between', fontSize:12, padding:'3px 0', color:c||'var(--ink-3)' }}>
                   <span>{k}</span><span style={{ color:c||'var(--ink)', fontWeight:c?700:400 }}>{v}</span>
                 </div>
               ))}
               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:12, paddingTop:10, borderTop:'2px solid var(--ink)' }}>
-                <span style={{ fontFamily:'var(--font-title)', fontSize:18, fontWeight:700, textTransform:'uppercase' }}>Total TTC</span>
+                <span style={{ fontFamily:'var(--font-title)', fontSize:18, fontWeight:700, textTransform:'uppercase' }}>{t(lang,'cart.total')}</span>
                 <span style={{ fontFamily:'var(--font-title)', fontSize:26, fontWeight:700, color:'var(--orange)' }}>{fmt(total)}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <BottomBar state={state} go={go} reset={reset}/>
+      <BottomBar state={state} go={go} reset={reset} lang={lang}/>
     </div>
   );
 }
 
 // ─── SCREEN: NOTIF PREFS ──────────────────────────────────────────────────────
-function NotifPrefsScreen({ state, go, reset }) {
+function NotifPrefsScreen({ state, go, reset, lang, setLang }) {
   const TYPES = [
     { id:'cmd',    label:'Confirmation de commande', icon:'📦' },
     { id:'exp',    label:'Expédition',               icon:'🚚' },
@@ -2358,18 +2448,18 @@ function NotifPrefsScreen({ state, go, reset }) {
     { id:'encours',label:'Alertes encours',          icon:'💳' },
     { id:'promo',  label:'Promotions & offres',      icon:'💰' },
   ];
-  const [inApp,setInApp]=useState(TYPES.map(t=>t.id));
+  const [inApp,setInApp]=useState(TYPES.map(tp=>tp.id));
   const [email,setEmail]=useState(['cmd','exp','livr','fact','devis','stock','encours']);
   const tog = (arr,setArr,id) => setArr(a=>a.includes(id)?a.filter(x=>x!==id):[...a,id]);
 
   return (
     <div>
-      <TopBar state={state} go={go} setQuery={()=>{}}/>
-      <NavBar state={state} go={go} setQuery={()=>{}}/>
+      <TopBar state={state} go={go} setQuery={()=>{}} lang={lang} setLang={setLang}/>
+      <NavBar state={state} go={go} setQuery={()=>{}} lang={lang}/>
       <div className="page">
         <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:4, flexWrap:'wrap' }}>
-          <button className="btn btn-ghost btn-sm" onClick={()=>go(state.prevView||'home')}>← Retour</button>
-          <div className="page-title">Préférences de notifications</div>
+          <button className="btn btn-ghost btn-sm" onClick={()=>go(state.prevView||'home')}>{t(lang,'checkout.back')}</button>
+          <div className="page-title">{t(lang,'notifs.prefTitle')}</div>
         </div>
         <div style={{ fontSize:13, color:'var(--ink-3)', marginBottom:24 }}>
           Activez ou désactivez les canaux de notification pour chaque type d'événement.
@@ -2377,24 +2467,24 @@ function NotifPrefsScreen({ state, go, reset }) {
         <div className="card" style={{ padding:0 }}>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 100px 100px', background:'var(--beige)', padding:'10px 20px', fontSize:11, fontWeight:700, fontFamily:'var(--font-title)', textTransform:'uppercase', letterSpacing:'.5px', color:'var(--ink-3)' }}>
             <span>Type</span>
-            <span style={{ textAlign:'center' }}>In-app</span>
-            <span style={{ textAlign:'center' }}>E-mail</span>
+            <span style={{ textAlign:'center' }}>{t(lang,'notifs.channelApp')}</span>
+            <span style={{ textAlign:'center' }}>{t(lang,'notifs.channelEmail')}</span>
           </div>
-          {TYPES.map(t=>(
-            <div key={t.id} style={{ display:'grid', gridTemplateColumns:'1fr 100px 100px', padding:'13px 20px', borderBottom:'1px solid var(--beige-d)', alignItems:'center' }}>
+          {TYPES.map(tp=>(
+            <div key={tp.id} style={{ display:'grid', gridTemplateColumns:'1fr 100px 100px', padding:'13px 20px', borderBottom:'1px solid var(--beige-d)', alignItems:'center' }}>
               <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-                <span style={{ fontSize:18 }}>{t.icon}</span>
-                <span style={{ fontSize:14, fontWeight:500 }}>{t.label}</span>
+                <span style={{ fontSize:18 }}>{tp.icon}</span>
+                <span style={{ fontSize:14, fontWeight:500 }}>{tp.label}</span>
               </div>
               <div style={{ textAlign:'center' }}>
                 <label className="toggle">
-                  <input type="checkbox" checked={inApp.includes(t.id)} onChange={()=>tog(inApp,setInApp,t.id)}/>
+                  <input type="checkbox" checked={inApp.includes(tp.id)} onChange={()=>tog(inApp,setInApp,tp.id)}/>
                   <span className="toggle-slider"/>
                 </label>
               </div>
               <div style={{ textAlign:'center' }}>
                 <label className="toggle">
-                  <input type="checkbox" checked={email.includes(t.id)} onChange={()=>tog(email,setEmail,t.id)}/>
+                  <input type="checkbox" checked={email.includes(tp.id)} onChange={()=>tog(email,setEmail,tp.id)}/>
                   <span className="toggle-slider"/>
                 </label>
               </div>
@@ -2402,17 +2492,17 @@ function NotifPrefsScreen({ state, go, reset }) {
           ))}
         </div>
         <div style={{ marginTop:20, display:'flex', gap:10 }}>
-          <button className="btn btn-primary" onClick={()=>go(state.prevView||'home')}>Enregistrer</button>
-          <button className="btn btn-ghost" onClick={()=>go(state.prevView||'home')}>Annuler</button>
+          <button className="btn btn-primary" onClick={()=>go(state.prevView||'home')}>{t(lang,'notifs.save')}</button>
+          <button className="btn btn-ghost" onClick={()=>go(state.prevView||'home')}>{t(lang,'notifs.cancel')}</button>
         </div>
       </div>
-      <BottomBar state={state} go={go} reset={reset}/>
+      <BottomBar state={state} go={go} reset={reset} lang={lang}/>
     </div>
   );
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
-const INIT_STATE = { view:'home', prevView:'home', cart:[], productId:null, query:'' };
+const INIT_STATE = { view:'home', prevView:'home', cart:[], productId:null, query:'', lang:'fr' };
 
 function App() {
   const [state,setState]=useState(INIT_STATE);
@@ -2425,13 +2515,13 @@ function App() {
     setState(s=>({ ...s,query:q }));
   }
   function reset() {
-    if(window.confirm('Réinitialiser le prototype ? Le panier et la navigation seront remis à zéro.')) {
-      setState(INIT_STATE);
-      window.scrollTo({ top:0,behavior:'instant' });
-    }
+    setState(INIT_STATE);
+    window.scrollTo({ top:0,behavior:'instant' });
   }
 
-  const p={ state,setState,go,setQuery,reset };
+  const lang = state.lang||'fr';
+  const setLang = l => setState(s=>({...s,lang:l}));
+  const p={ state,setState,go,setQuery,reset,lang,setLang };
   return (
     <>
       {state.view==='home'     && <HomeScreen     {...p}/>}
