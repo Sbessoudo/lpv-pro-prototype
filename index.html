@@ -1852,6 +1852,7 @@ function ProductScreen({ state, setState, go, setQuery, reset, lang, setLang }) 
   const [qty,setQty]=useState(1);
   const [tab,setTab]=useState('desc');
   const [adding,setAdding]=useState(false);
+  const [added,setAdded]=useState(false);
   const [selThumb,setSelThumb]=useState(0);
   const thumbAngles = ['Vue principale','Vue de face','Détail connecteur','Emballage'];
   useEffect(()=>setSelThumb(0),[p.id]);
@@ -1876,7 +1877,9 @@ function ProductScreen({ state, setState, go, setQuery, reset, lang, setLang }) 
         const clamped=Math.min(cur+safeQty, p.maxQty);
         return { ...s, cart:ex?s.cart.map(l=>l.id===p.id?{...l,qty:clamped}:l):[...s.cart,{id:p.id,p,qty:clamped}] };
       });
-      go('cart');
+      setAdding(false);
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
     }, 700);
   }
 
@@ -1973,8 +1976,10 @@ function ProductScreen({ state, setState, go, setQuery, reset, lang, setLang }) 
                   onChange={v=>setQty(Math.min(v, remaining))}
                   max={remaining}/>
               </div>
-              <button className="btn btn-primary btn-lg" disabled={unavail||adding||remaining===0} onClick={addToCart} style={{ flex:1 }}>
+              <button className="btn btn-primary btn-lg" disabled={unavail||adding||remaining===0} onClick={addToCart}
+                style={{ flex:1, background: added ? 'var(--success)' : undefined, transition:'background .3s' }}>
                 {adding ? <><span className="spin"/>{t(lang,'product.adding')}</>
+                 : added ? '✓ ' + (lang==='en' ? 'Added!' : 'Ajouté !')
                  : p.stock==='disc' ? t(lang,'product.disc')
                  : p.stock==='reappro' ? t(lang,'product.reappro')
                  : remaining === 0 ? t(lang,'product.outOfStock')
@@ -2173,7 +2178,7 @@ function CartScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
 }
 
 // ─── SCREEN 5: CHECKOUT ───────────────────────────────────────────────────────
-function CheckoutScreen({ state, setState, go, reset, lang, setLang }) {
+function CheckoutScreen({ state, setState, go, setQuery, reset, lang, setLang }) {
   const [step,setStep]=useState(1);
   const [payment,setPayment]=useState('cb');
   const [cgv,setCgv]=useState(false);
@@ -2193,20 +2198,11 @@ function CheckoutScreen({ state, setState, go, reset, lang, setLang }) {
 
   return (
     <div style={{ minHeight:'100vh', background:'var(--beige)' }}>
-      {/* Checkout header */}
-      <div style={{ background:'var(--white)', borderBottom:'2px solid var(--beige-d)', padding:'0 24px', height:64, display:'flex', alignItems:'center', gap:16, boxShadow:'var(--shadow-s)', position:'sticky', top:0, zIndex:200 }}>
-        <div style={{ display:'flex', alignItems:'center', gap:8, flexShrink:0 }}>
-          <div onClick={()=>go('home')} style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer' }}>
-            <Logo size={36}/>
-            <span style={{ fontFamily:'var(--font-title)', fontSize:18, fontWeight:700, color:'var(--teal)' }}>LPV•pro</span>
-          </div>
-          {step < 3 && (
-            <button className="btn btn-ghost btn-sm" style={{ marginLeft:8 }} onClick={()=>go('home')}>
-              {t(lang,'checkout.home')}
-            </button>
-          )}
-        </div>
-        <div className="step-line" style={{ flex:1, padding:'0 24px' }}>
+      <TopBar state={state} go={go} setQuery={setQuery||(() => {})} lang={lang} setLang={setLang}/>
+      <NavBar state={state} go={go} setQuery={setQuery||(() => {})} lang={lang}/>
+      {/* Step progress strip */}
+      <div style={{ background:'var(--white)', borderBottom:'1px solid var(--beige-d)', padding:'0 24px', height:48, display:'flex', alignItems:'center', gap:16 }}>
+        <div className="step-line" style={{ flex:1 }}>
           {STEPS.map((s,i)=>{
             const n=i+1;
             const cls=n<step?'done':n===step?'active':'idle';
